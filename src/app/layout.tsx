@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { Cormorant_Garamond, Jost } from 'next/font/google';
 import { Suspense } from 'react';
-import Script from 'next/script';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { ThemeProvider } from '@/context/ThemeContext';
 import Nav from '@/components/Nav';
@@ -36,15 +35,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
-      <body className={`${cormorant.variable} ${jost.variable}`}>
+      <head>
+        {PLAUSIBLE_DOMAIN && <script async src="https://plausible.io/js/pa-rJNcgCeqyKrYkkNB_nbJ4.js" />}
         {PLAUSIBLE_DOMAIN && (
-          <Script
-            defer
-            data-domain={`${PLAUSIBLE_DOMAIN},sharp-sighted-network`}
-            src="https://plausible.io/js/script.js"
-            strategy="afterInteractive"
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`,
+            }}
           />
         )}
+      </head>
+      <body className={`${cormorant.variable} ${jost.variable}`}>
         <ThemeProvider>
           <Nav />
           {children}

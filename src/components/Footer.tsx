@@ -46,6 +46,7 @@ function PropertyRow({ prop }: { prop: typeof PROPERTIES[number] }) {
 export default function Footer() {
   return (
     <footer>
+      <div className="footer-inner">
       {/* Brand block */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <div
@@ -100,6 +101,7 @@ export default function Footer() {
         <div style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 300 }}>
           &copy; {new Date().getFullYear()} Sharp Sighted Media
         </div>
+      </div>
       </div>
     </footer>
   );
