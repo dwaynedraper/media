@@ -21,7 +21,7 @@ const jost = Jost({
   variable: '--font-jost',
 });
 
-const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+const PLAUSIBLE_SCRIPT = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT;
 
 export const metadata: Metadata = {
   title: {
@@ -36,8 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
-        {PLAUSIBLE_DOMAIN && <script async src="https://plausible.io/js/pa-rJNcgCeqyKrYkkNB_nbJ4.js" />}
-        {PLAUSIBLE_DOMAIN && (
+        {PLAUSIBLE_SCRIPT && <script async src={PLAUSIBLE_SCRIPT} />}
+        {PLAUSIBLE_SCRIPT && (
           <script
             dangerouslySetInnerHTML={{
               __html: `window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`,
