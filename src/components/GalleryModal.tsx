@@ -2,18 +2,21 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { cloudinaryUrl } from '@/lib/cloudinary';
-import type { Property } from '@/data/properties';
+import type { GalleryPhoto } from '@/data/photos';
 
 type Props = {
-  property: Property;
+  photos: GalleryPhoto[];
   startIndex: number;
   onClose: () => void;
 };
 
-export default function GalleryModal({ property, startIndex, onClose }: Props) {
-  const [index, setIndex] = useState(startIndex);
+export default function GalleryModal({ photos, startIndex, onClose }: Props) {
+  // Guard: startIndex clamped into range so a bad caller can't strand the
+  // modal on a hole (negative or past the end → modulo math goes NaN-ish).
+  const safeStart = Math.min(Math.max(startIndex, 0), Math.max(photos.length - 1, 0));
+  const [index, setIndex] = useState(safeStart);
   const [zoomed, setZoomed] = useState(false);
-  const total = property.photos.length;
+  const total = photos.length;
   const imgRef = useRef<HTMLImageElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
@@ -58,9 +61,9 @@ export default function GalleryModal({ property, startIndex, onClose }: Props) {
     const prevIdx = (index - 1 + total) % total;
     [nextIdx, prevIdx].forEach(i => {
       const img = new window.Image();
-      img.src = cloudinaryUrl(property.photos[i], 'fit');
+      img.src = cloudinaryUrl(photos[i].publicId, 'fit');
     });
-  }, [index, property.photos, total]);
+  }, [index, photos, total]);
 
   // Center scroll position when entering zoom mode
   useEffect(() => {
@@ -108,17 +111,19 @@ export default function GalleryModal({ property, startIndex, onClose }: Props) {
     touchStart.current = null;
   };
 
-  const currentSrc = cloudinaryUrl(
-    property.photos[index],
-    zoomed ? 'raw' : 'fit'
-  );
+  // Guard: nothing to show — bail rather than render a broken
+  // <img src=""> with NaN-ing nav math.
+  if (total === 0) return null;
+
+  const current = photos[index];
+  const currentSrc = cloudinaryUrl(current.publicId, zoomed ? 'raw' : 'fit');
 
   return (
     <div
       className="gallery-modal"
       role="dialog"
       aria-modal="true"
-      aria-label={`${property.name} photo gallery`}
+      aria-label="Real estate photo gallery"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
@@ -131,7 +136,7 @@ export default function GalleryModal({ property, startIndex, onClose }: Props) {
           key={`${index}-${zoomed ? 'r' : 'f'}`}
           ref={imgRef}
           src={currentSrc}
-          alt={`${property.name} photo ${index + 1}`}
+          alt={current.alt}
           className="modal-image"
           onClick={handleImageClick}
           draggable={false}

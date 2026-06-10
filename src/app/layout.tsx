@@ -23,6 +23,49 @@ const jost = Jost({
 
 const PLAUSIBLE_SCRIPT = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT;
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://sharpsightedstudio.com/#organization',
+      name: 'Sharp Sighted Studio',
+      legalName: 'Sharp Sighted Studio',
+      url: 'https://sharpsightedstudio.com',
+      telephone: '+12142335338',
+      email: 'dean@sharpsightedstudio.com',
+      founder: { '@type': 'Person', name: 'Dean Draper' },
+      foundingDate: '2022-07',
+    },
+    {
+      '@type': 'LocalBusiness',
+      '@id': 'https://sharpsighted.media/#business',
+      name: 'Sharp Sighted Media',
+      legalName: 'Sharp Sighted Studio',
+      description: 'Real estate media for top-producing agents in the DFW 121 corridor. MLS photography, aerials, walkthrough video, floor plans, and twilight edits by Dean Draper.',
+      url: 'https://sharpsighted.media',
+      telephone: '+12142335338',
+      email: 'dean@sharpsightedstudio.com',
+      priceRange: '$$$',
+      parentOrganization: { '@id': 'https://sharpsightedstudio.com/#organization' },
+      areaServed: [
+        'Allen, TX', 'Plano, TX', 'Frisco, TX', 'McKinney, TX',
+        'Lewisville, TX', 'The Colony, TX', 'Coppell, TX', 'Roanoke, TX',
+        'Denton, TX', 'Grapevine, TX', 'Southlake, TX', 'Colleyville, TX',
+        'Westlake, TX',
+      ],
+      sameAs: [
+        'https://sharpsightedstudio.com',
+        'https://sharpsighted.photos',
+        'https://sharpsighted.studio',
+        'https://www.instagram.com/sharp_sighted_studio',
+        'https://www.facebook.com/sharpsightedstudio',
+        'https://www.linkedin.com/in/dean-draper',
+      ],
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   title: {
     template: '%s | Sharp Sighted Media',
@@ -36,6 +79,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        {/* No-FOUC theme script — sets data-theme before first paint from the
+            saved preference, or the OS setting when none (system default). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var p=localStorage.getItem('ssm-theme');var sys=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';var r=(p==='light'||p==='dark')?p:sys;document.documentElement.setAttribute('data-theme',r);}catch(e){}})();`,
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {PLAUSIBLE_SCRIPT && <script async src={PLAUSIBLE_SCRIPT} />}
         {PLAUSIBLE_SCRIPT && (
           <script

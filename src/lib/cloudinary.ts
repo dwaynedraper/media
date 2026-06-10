@@ -12,6 +12,15 @@ const transforms: Record<Variant, string> = {
 };
 
 export function cloudinaryUrl(publicId: string, variant: Variant): string {
-  if (!CLOUD_NAME || !publicId) return '';
+  if (!CLOUD_NAME) {
+    // Silent blank images are miserable to debug — say why, once per load.
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn(
+        'cloudinaryUrl: NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME is not set — images will not render. Set it in .env.local (and on the production host).',
+      );
+    }
+    return '';
+  }
+  if (!publicId) return '';
   return `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/${transforms[variant]}/${publicId}`;
 }

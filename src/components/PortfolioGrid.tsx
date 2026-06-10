@@ -2,55 +2,47 @@
 
 import { useState } from 'react';
 import { cloudinaryUrl } from '@/lib/cloudinary';
-import { properties } from '@/data/properties';
+import { photos } from '@/data/photos';
 import GalleryModal from './GalleryModal';
 
+/**
+ * The wall: one continuous scroll of individual photos. Clicking any
+ * photo opens a single fullscreen carousel over the entire set,
+ * starting at the photo that was clicked.
+ */
 export default function PortfolioGrid() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [startIndex, setStartIndex] = useState<number | null>(null);
 
-  if (properties.length === 0) {
+  if (photos.length === 0) {
     return <p className="portfolio-empty">Recent work coming soon.</p>;
   }
 
   return (
     <>
       <div className="portfolio-grid">
-        {properties.map((p, i) => (
+        {photos.map((photo, i) => (
           <button
-            key={p.slug}
+            key={photo.publicId}
             type="button"
             className="portfolio-card"
-            onClick={() => setActiveIndex(i)}
-            aria-label={`Open ${p.name} gallery`}
+            onClick={() => setStartIndex(i)}
           >
             <img
               className="card-cover"
-              src={cloudinaryUrl(p.cover, 'thumb')}
-              alt={p.name}
-              loading="lazy"
+              src={cloudinaryUrl(photo.publicId, 'thumb')}
+              alt={photo.alt}
+              loading={i < 4 ? 'eager' : 'lazy'}
               draggable={false}
             />
-            <img
-              className="card-hover"
-              src={cloudinaryUrl(p.hover, 'thumb')}
-              alt=""
-              aria-hidden="true"
-              loading="lazy"
-              draggable={false}
-            />
-            <div className="card-overlay">
-              <div className="card-name">{p.name}</div>
-              <div className="card-date">{p.date}</div>
-            </div>
           </button>
         ))}
       </div>
 
-      {activeIndex !== null && (
+      {startIndex !== null && (
         <GalleryModal
-          property={properties[activeIndex]}
-          startIndex={0}
-          onClose={() => setActiveIndex(null)}
+          photos={photos}
+          startIndex={startIndex}
+          onClose={() => setStartIndex(null)}
         />
       )}
     </>
