@@ -1,6 +1,7 @@
 'use client';
 
 import { useReveal } from '@/hooks/useReveal';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 export default function Problem() {
   const revealInner = useReveal<HTMLDivElement>();
@@ -15,6 +16,14 @@ export default function Problem() {
           <div>
             <div className="section-label">The Problem</div>
             <h2>When the media underperforms, the client blames you.</h2>
+            <figure className="section-photo problem-photo">
+              <img
+                src={cloudinaryUrl('sharpsighted/home/problem-wine-wall-dining', 'thumb')}
+                alt="Formal dining room with backlit wine wall and gold pendant chandelier in an Allen, Texas luxury estate"
+                loading="lazy"
+                draggable={false}
+              />
+            </figure>
           </div>
           <ul className="problem-list">
             <li ref={revealItem1} className="problem-item reveal reveal-delay-1">

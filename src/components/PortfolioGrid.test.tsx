@@ -12,6 +12,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 afterEach(() => {
   cleanup();
   vi.resetModules();
+  vi.unstubAllGlobals();
   vi.doUnmock('@/data/photos');
 });
 
@@ -50,6 +51,23 @@ describe('PortfolioGrid', () => {
     // …and the carousel spans the entire wall, not a sub-gallery
     fireEvent.keyDown(window, { key: 'ArrowRight' });
     expect(screen.getByLabelText('Photo 3 of 3')).toBeTruthy();
+  });
+
+  it('hovering a card prefetches its fullscreen image exactly once', async () => {
+    const fetched: string[] = [];
+    vi.stubGlobal(
+      'Image',
+      class {
+        set src(v: string) { fetched.push(v); }
+      },
+    );
+    await renderWithPhotos(WALL);
+    const card = screen.getByRole('button', { name: 'Great room' });
+    fireEvent.mouseEnter(card);
+    fireEvent.mouseEnter(card); // second hover must not refetch
+    expect(fetched.filter(u => u.includes('p/02'))).toHaveLength(1);
+    // viewport-sized modal URL, so the modal's later request is a cache hit
+    expect(fetched[0]).toContain('c_limit,w_1280,h_960');
   });
 
   it('Escape closes the carousel and returns to the wall', async () => {

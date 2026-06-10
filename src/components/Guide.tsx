@@ -1,6 +1,7 @@
 'use client';
 
 import { useReveal } from '@/hooks/useReveal';
+import GuideDiagram from './GuideDiagram';
 
 export default function Guide() {
   const revealLeft  = useReveal<HTMLDivElement>();
@@ -47,6 +48,7 @@ export default function Guide() {
               </p>
             </div>
           </div>
+          <GuideDiagram />
         </div>
       </div>
     </section>

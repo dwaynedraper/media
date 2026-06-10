@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 export default function Hero() {
   return (
@@ -23,11 +24,21 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-      <div className="hero-badges" aria-label="Credentials">
-        <div className="badge">FAA Part 107 Certified</div>
-        <div className="badge">MLS and AI Compliant</div>
-        <div className="badge">24-Hour Delivery</div>
-        <div className="badge">Serving the 121 Corridor</div>
+      <div className="hero-right">
+        <div className="hero-photo">
+          <img
+            src={cloudinaryUrl('sharpsighted/home/hero-living-room', 'thumb')}
+            alt="Double-height formal living room with sculptural fireplace and ring chandeliers in an Allen, Texas luxury estate"
+            fetchPriority="high"
+            draggable={false}
+          />
+        </div>
+        <div className="hero-badges" aria-label="Credentials">
+          <div className="badge">FAA Part 107 Certified</div>
+          <div className="badge">MLS and AI Compliant</div>
+          <div className="badge">24-Hour Delivery</div>
+          <div className="badge">Serving the 121 Corridor</div>
+        </div>
       </div>
     </section>
   );

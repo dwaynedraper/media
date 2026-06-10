@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, useCallback } from 'react';
-import { cloudinaryUrl } from '@/lib/cloudinary';
+import { modalUrl } from '@/lib/cloudinary';
 import type { GalleryPhoto } from '@/data/photos';
 
 type Props = {
@@ -15,22 +15,12 @@ export default function GalleryModal({ photos, startIndex, onClose }: Props) {
   // modal on a hole (negative or past the end → modulo math goes NaN-ish).
   const safeStart = Math.min(Math.max(startIndex, 0), Math.max(photos.length - 1, 0));
   const [index, setIndex] = useState(safeStart);
-  const [zoomed, setZoomed] = useState(false);
   const total = photos.length;
-  const imgRef = useRef<HTMLImageElement>(null);
-  const wrapRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
 
-  const next = useCallback(() => {
-    setZoomed(false);
-    setIndex(i => (i + 1) % total);
-  }, [total]);
-
-  const prev = useCallback(() => {
-    setZoomed(false);
-    setIndex(i => (i - 1 + total) % total);
-  }, [total]);
+  const next = useCallback(() => setIndex(i => (i + 1) % total), [total]);
+  const prev = useCallback(() => setIndex(i => (i - 1 + total) % total), [total]);
 
   // Keyboard nav
   useEffect(() => {
@@ -54,54 +44,32 @@ export default function GalleryModal({ photos, startIndex, onClose }: Props) {
     };
   }, []);
 
-  // Preload neighbors for snappy nav
+  // Prefetch neighbors — one back, two ahead. Forward-biased because most
+  // people page forward; by the time they land on a photo, the next one is
+  // already in cache.
   useEffect(() => {
     if (total <= 1) return;
-    const nextIdx = (index + 1) % total;
-    const prevIdx = (index - 1 + total) % total;
-    [nextIdx, prevIdx].forEach(i => {
+    [1, 2, -1].forEach(offset => {
       const img = new window.Image();
-      img.src = cloudinaryUrl(photos[i].publicId, 'fit');
+      img.src = modalUrl(photos[(index + offset + total) % total].publicId);
     });
   }, [index, photos, total]);
 
-  // Center scroll position when entering zoom mode
-  useEffect(() => {
-    if (!zoomed) return;
-    const wrap = wrapRef.current;
-    const img = imgRef.current;
-    if (!wrap || !img) return;
-    const center = () => {
-      wrap.scrollLeft = (img.scrollWidth - wrap.clientWidth) / 2;
-      wrap.scrollTop  = (img.scrollHeight - wrap.clientHeight) / 2;
-    };
-    if (img.complete) center();
-    else img.addEventListener('load', center, { once: true });
-  }, [zoomed]);
-
-  const handleImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
-    e.stopPropagation();
-    const img = imgRef.current;
-    if (!img) return;
-    const fits =
-      img.naturalWidth  <= window.innerWidth &&
-      img.naturalHeight <= window.innerHeight;
-    if (fits) return;
-    setZoomed(z => !z);
+  // Click-zone nav: left third of the screen steps back, the rest advances.
+  // Closing is the X button or Escape — clicks on the photo never close.
+  const handleStageClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (total <= 1) return;
+    if (e.clientX < window.innerWidth / 3) prev();
+    else next();
   };
 
-  const handleWrapClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget) onClose();
-  };
-
-  // Touch swipe (disabled when zoomed — pan takes priority)
+  // Touch swipe
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (zoomed) return;
     touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   };
   const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchStart.current || zoomed) return;
+    if (!touchStart.current) return;
     const dx = e.changedTouches[0].clientX - touchStart.current.x;
     const dy = e.changedTouches[0].clientY - touchStart.current.y;
     if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) {
@@ -116,7 +84,6 @@ export default function GalleryModal({ photos, startIndex, onClose }: Props) {
   if (total === 0) return null;
 
   const current = photos[index];
-  const currentSrc = cloudinaryUrl(current.publicId, zoomed ? 'raw' : 'fit');
 
   return (
     <div
@@ -127,18 +94,12 @@ export default function GalleryModal({ photos, startIndex, onClose }: Props) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <div
-        ref={wrapRef}
-        className={`modal-image-wrap${zoomed ? ' zoomed' : ''}`}
-        onClick={handleWrapClick}
-      >
+      <div className="modal-image-wrap" onClick={handleStageClick}>
         <img
-          key={`${index}-${zoomed ? 'r' : 'f'}`}
-          ref={imgRef}
-          src={currentSrc}
+          key={index}
+          src={modalUrl(current.publicId)}
           alt={current.alt}
           className="modal-image"
-          onClick={handleImageClick}
           draggable={false}
         />
       </div>

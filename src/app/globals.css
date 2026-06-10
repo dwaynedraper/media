@@ -517,21 +517,51 @@ nav {
   }
 }
 
-/* badges — desktop only */
-.hero-badges {
+/* photo + badges column — desktop only */
+.hero-right {
   display: none;
 }
 
 @media (min-width: 1024px) {
+  .hero {
+    gap:             3rem;
+    justify-content: space-between;
+  }
+
+  .hero-right {
+    display:        flex;
+    flex-direction: column;
+    gap:            1.1rem;
+    align-items:    flex-end;
+    width:          min(46vw, 660px);
+    flex-shrink:    0;
+    position:       relative;
+    /* Run past the content gutter — the photo lives wider than the copy */
+    margin-right:   -4rem;
+    animation:      fadeUp 1.1s 0.2s ease both;
+  }
+
+  .hero-photo {
+    width:        100%;
+    aspect-ratio: 3 / 2;
+    overflow:     hidden;
+    border:       1px solid var(--border-gold);
+    box-shadow:   0 30px 80px rgba(0, 0, 0, 0.45);
+  }
+
+  .hero-photo img {
+    width:      100%;
+    height:     100%;
+    object-fit: cover;
+    display:    block;
+  }
+
   .hero-badges {
-    position:       absolute;
-    bottom:         4rem;
-    right:          4rem;
     display:        flex;
     flex-direction: column;
     gap:            0.75rem;
     align-items:    flex-end;
-    animation:      fadeUp 1.1s 0.3s ease both;
+    padding-right:  0.25rem;
   }
 }
 
@@ -676,14 +706,9 @@ section {
   }
 }
 
+/* guide-left scrolls with the section — it used to be sticky, which made
+   it ride over the research diagram below. One block, no stickiness. */
 .guide-left { position: static; }
-
-@media (min-width: 1024px) {
-  .guide-left {
-    position: sticky;
-    top:      6rem;
-  }
-}
 
 .guide h2 {
   font-family:   var(--serif);
@@ -1919,13 +1944,8 @@ footer {
   align-items:      center;
   justify-content:  center;
   overflow:         hidden;
-}
-
-.modal-image-wrap.zoomed {
-  overflow:         auto;
-  align-items:      flex-start;
-  justify-content:  flex-start;
-  cursor:           zoom-out;
+  /* Whole stage is a nav surface: left third back, the rest forward */
+  cursor:           pointer;
 }
 
 .modal-image {
@@ -1936,14 +1956,7 @@ footer {
   height:            auto;
   user-select:       none;
   -webkit-user-drag: none;
-  cursor:            zoom-in;
   animation:         imgFadeIn 0.25s ease;
-}
-
-.modal-image-wrap.zoomed .modal-image {
-  max-width:  none;
-  max-height: none;
-  cursor:     zoom-out;
 }
 
 @keyframes imgFadeIn {
@@ -2038,3 +2051,90 @@ footer {
 }
 
 .modal-counter span { display: inline-block; }
+
+/* ============================================================
+   HOMEPAGE PHOTOS — hero portrait + section figures
+   ============================================================ */
+
+/* Shared section figure — quiet frame, photo does the talking */
+.section-photo {
+  margin:   0;
+  overflow: hidden;
+  border:   1px solid var(--border);
+}
+
+.section-photo img {
+  display:      block;
+  width:        100%;
+  height:       100%;
+  object-fit:   cover;
+  aspect-ratio: 3 / 2;
+}
+
+.problem-photo { margin-top: 2.25rem; }
+.plan-photo    { margin-top: 3rem; }
+
+/* Guide research diagram — blueprint-style technical drawing.
+   All strokes/fills ride the theme variables, so it adapts to both themes.
+   Inside the guide grid it must span BOTH columns: without grid-column it
+   auto-places into the narrow sticky left column and gets ridden over. */
+.guide-diagram {
+  grid-column: 1 / -1;
+  margin-top:  2.75rem;
+  border:      1px solid var(--border);
+  background:  var(--surface);
+  padding:     1.25rem;
+}
+
+@media (min-width: 768px) {
+  .guide-diagram { padding: 1.75rem 2rem; }
+}
+
+.guide-diagram svg { display: block; width: 100%; height: auto; }
+
+.guide-diagram .gd-frame  { stroke: var(--border); fill: none; }
+.guide-diagram .gd-grid   { stroke: var(--border); }
+.guide-diagram .gd-gold   { stroke: var(--gold); fill: none; }
+.guide-diagram .gd-soft   { stroke: var(--border-gold); fill: none; }
+.guide-diagram .gd-dim    { fill: var(--gold-dim); }
+.guide-diagram .gd-dot    { fill: var(--gold); }
+.guide-diagram .gd-text   { fill: var(--text-muted); font-family: var(--sans); letter-spacing: 0.08em; }
+.guide-diagram .gd-text-strong { fill: var(--text-mid); font-family: var(--sans); letter-spacing: 0.08em; }
+.guide-diagram .gd-text-gold { fill: var(--gold); font-family: var(--sans); letter-spacing: 0.14em; }
+
+.guide-diagram-sources {
+  margin-top:     0.9rem;
+  font-size:      0.72rem;
+  letter-spacing: 0.04em;
+  color:          var(--text-muted);
+  line-height:    1.8;
+}
+
+.guide-diagram-sources a {
+  color:         var(--text-muted);
+  border-bottom: 1px solid var(--border-gold);
+}
+
+.guide-diagram-sources a:hover { color: var(--gold-light); }
+
+/* Final CTA — twilight backdrop faded into the section background so the
+   copy stays the loudest thing on screen (works in both themes) */
+.final-cta { position: relative; overflow: hidden; }
+
+.final-cta .container { position: relative; z-index: 1; }
+
+.final-cta-bg { position: absolute; inset: 0; }
+
+.final-cta-bg img {
+  width:      100%;
+  height:     100%;
+  object-fit: cover;
+  opacity:    0.16;
+}
+
+.final-cta-bg::after {
+  content:    '';
+  position:   absolute;
+  inset:      0;
+  background: linear-gradient(to bottom, var(--surface), transparent 35%, transparent 70%, var(--surface));
+}

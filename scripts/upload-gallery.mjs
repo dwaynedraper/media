@@ -24,7 +24,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const DEFAULT_STAGING =
   '/Volumes/Portfolio/Portfolio - RE & Arch/Claude Selections/upload-ready';
-const FOLDER = 'sharpsighted/real-estate';
+const DEFAULT_FOLDER = 'sharpsighted/real-estate';
 
 // ---- env ------------------------------------------------------------------
 const envPath = join(__dirname, '..', '.env.local');
@@ -48,9 +48,19 @@ if (files.length === 0) {
   console.error(`No .jpg files found in: ${staging}`);
   process.exit(1);
 }
+// context.json shapes:
+//   new:    { "folder": "sharpsighted/home", "images": { "<name>": {alt, caption} } }
+//   legacy: { "<name>": {alt, caption} }  → uploads to DEFAULT_FOLDER
 let context = {};
+let FOLDER = DEFAULT_FOLDER;
 try {
-  context = JSON.parse(readFileSync(join(staging, 'context.json'), 'utf8'));
+  const parsed = JSON.parse(readFileSync(join(staging, 'context.json'), 'utf8'));
+  if (parsed.folder && parsed.images) {
+    FOLDER = parsed.folder;
+    context = parsed.images;
+  } else {
+    context = parsed;
+  }
 } catch {
   console.warn('context.json not found — uploading without alt/caption metadata.');
 }

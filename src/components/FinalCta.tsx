@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useReveal } from '@/hooks/useReveal';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 export default function FinalCta() {
   const revealH2  = useReveal<HTMLHeadingElement>();
@@ -11,6 +12,14 @@ export default function FinalCta() {
 
   return (
     <section className="final-cta">
+      <div className="final-cta-bg" aria-hidden="true">
+        <img
+          src={cloudinaryUrl('sharpsighted/home/cta-twilight-estate', 'bg')}
+          alt=""
+          loading="lazy"
+          draggable={false}
+        />
+      </div>
       <div className="container">
         <h2 ref={revealH2} className="reveal">
           Your next listing deserves <em>better.</em>

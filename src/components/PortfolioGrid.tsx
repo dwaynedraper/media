@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { cloudinaryUrl } from '@/lib/cloudinary';
+import { useRef, useState } from 'react';
+import { cloudinaryUrl, modalUrl } from '@/lib/cloudinary';
 import { photos } from '@/data/photos';
 import GalleryModal from './GalleryModal';
 
@@ -12,6 +12,17 @@ import GalleryModal from './GalleryModal';
  */
 export default function PortfolioGrid() {
   const [startIndex, setStartIndex] = useState<number | null>(null);
+
+  // Start fetching the fullscreen version the moment intent shows (hover,
+  // keyboard focus, or first touch) — by the time the modal opens, the
+  // image is usually already sitting in the browser cache.
+  const prefetched = useRef<Set<string>>(new Set());
+  const prefetch = (publicId: string) => {
+    if (prefetched.current.has(publicId)) return;
+    prefetched.current.add(publicId);
+    const img = new window.Image();
+    img.src = modalUrl(publicId);
+  };
 
   if (photos.length === 0) {
     return <p className="portfolio-empty">Recent work coming soon.</p>;
@@ -26,6 +37,9 @@ export default function PortfolioGrid() {
             type="button"
             className="portfolio-card"
             onClick={() => setStartIndex(i)}
+            onMouseEnter={() => prefetch(photo.publicId)}
+            onFocus={() => prefetch(photo.publicId)}
+            onTouchStart={() => prefetch(photo.publicId)}
           >
             <img
               className="card-cover"

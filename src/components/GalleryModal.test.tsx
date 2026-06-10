@@ -4,9 +4,10 @@
  * Functional tests for the custom gallery carousel.
  *
  * These drive the REAL component through its real interactions: keyboard
- * arrows, wrap-around at both ends, Escape/backdrop close, touch swipes
- * (threshold + axis rules), zoom gating, scroll-lock, and the
- * single-photo / empty-photo edge cases.
+ * arrows, wrap-around at both ends, click-zone navigation (left third
+ * back / rest forward), Escape/X close, touch swipes (threshold + axis
+ * rules), neighbor prefetch, scroll-lock, and the single-photo /
+ * empty-photo edge cases.
  */
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
@@ -21,11 +22,16 @@ const THREE = ph(['p/01', 'p/02', 'p/03']);
 
 afterEach(() => {
   cleanup();
+  vi.unstubAllGlobals();
   document.body.style.overflow = '';
 });
 
 function currentImg(): HTMLImageElement {
   return screen.getByAltText(/Test photo/i) as HTMLImageElement;
+}
+
+function stage(container: HTMLElement): Element {
+  return container.querySelector('.modal-image-wrap')!;
 }
 
 describe('GalleryModal — navigation', () => {
@@ -64,22 +70,61 @@ describe('GalleryModal — navigation', () => {
   });
 });
 
+describe('GalleryModal — click zones', () => {
+  // jsdom viewport is 1024 wide → boundary at ~341px.
+
+  it('clicking the right two-thirds of the stage advances', () => {
+    const { container } = render(
+      <GalleryModal photos={THREE} startIndex={0} onClose={() => {}} />,
+    );
+    fireEvent.click(stage(container), { clientX: 900 });
+    expect(currentImg().src).toContain('p/02');
+    fireEvent.click(stage(container), { clientX: 400 }); // just right of the boundary
+    expect(currentImg().src).toContain('p/03');
+  });
+
+  it('clicking the left third goes back (and wraps)', () => {
+    const { container } = render(
+      <GalleryModal photos={THREE} startIndex={0} onClose={() => {}} />,
+    );
+    fireEvent.click(stage(container), { clientX: 100 });
+    expect(currentImg().src).toContain('p/03'); // wrapped backwards
+  });
+
+  it('stage clicks never close the modal', () => {
+    const onClose = vi.fn();
+    const { container } = render(
+      <GalleryModal photos={THREE} startIndex={0} onClose={onClose} />,
+    );
+    fireEvent.click(stage(container), { clientX: 900 });
+    fireEvent.click(stage(container), { clientX: 100 });
+    fireEvent.click(currentImg(), { clientX: 900 }); // clicks on the photo bubble to the stage
+    expect(onClose).not.toHaveBeenCalled();
+  });
+});
+
+describe('GalleryModal — prefetch', () => {
+  it('prefetches one back and two ahead of the current photo', () => {
+    const fetched: string[] = [];
+    vi.stubGlobal(
+      'Image',
+      class {
+        set src(v: string) { fetched.push(v); }
+      },
+    );
+    render(<GalleryModal photos={ph(['p/01', 'p/02', 'p/03', 'p/04', 'p/05'])} startIndex={0} onClose={() => {}} />);
+    expect(fetched.some(u => u.includes('p/02'))).toBe(true); // +1
+    expect(fetched.some(u => u.includes('p/03'))).toBe(true); // +2
+    expect(fetched.some(u => u.includes('p/05'))).toBe(true); // -1 (wraps)
+    expect(fetched.some(u => u.includes('p/04'))).toBe(false);
+  });
+});
+
 describe('GalleryModal — closing', () => {
   it('Escape closes', () => {
     const onClose = vi.fn();
     render(<GalleryModal photos={THREE} startIndex={0} onClose={onClose} />);
     fireEvent.keyDown(window, { key: 'Escape' });
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('clicking the backdrop closes; clicking the image does not', () => {
-    const onClose = vi.fn();
-    const { container } = render(
-      <GalleryModal photos={THREE} startIndex={0} onClose={onClose} />,
-    );
-    fireEvent.click(currentImg());
-    expect(onClose).not.toHaveBeenCalled();
-    fireEvent.click(container.querySelector('.modal-image-wrap')!);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
@@ -136,40 +181,24 @@ describe('GalleryModal — touch swipe', () => {
   });
 });
 
-describe('GalleryModal — zoom', () => {
-  it('does not zoom when the image already fits the viewport', () => {
+describe('GalleryModal — image sizing', () => {
+  it('serves a viewport-sized image, not blanket 4K', () => {
     render(<GalleryModal photos={THREE} startIndex={0} onClose={() => {}} />);
-    const img = currentImg();
-    Object.defineProperty(img, 'naturalWidth', { value: 800, configurable: true });
-    Object.defineProperty(img, 'naturalHeight', { value: 600, configurable: true });
-    fireEvent.click(img);
-    expect(document.querySelector('.modal-image-wrap.zoomed')).toBeNull();
-    expect(currentImg().src).toContain('c_limit'); // still the fit variant
-  });
-
-  it('zooms to the raw variant when larger than the viewport, toggles back', () => {
-    render(<GalleryModal photos={THREE} startIndex={0} onClose={() => {}} />);
-    const img = currentImg();
-    Object.defineProperty(img, 'naturalWidth', { value: 8000, configurable: true });
-    Object.defineProperty(img, 'naturalHeight', { value: 5000, configurable: true });
-    fireEvent.click(img);
-    expect(document.querySelector('.modal-image-wrap.zoomed')).not.toBeNull();
-    expect(currentImg().src).toContain('q_auto:best'); // raw variant
-
-    // arrow nav resets zoom
-    fireEvent.keyDown(window, { key: 'ArrowRight' });
-    expect(document.querySelector('.modal-image-wrap.zoomed')).toBeNull();
-    expect(currentImg().src).toContain('c_limit');
+    // jsdom: 1024x768 @1x → bucketed to 1280x960
+    expect(currentImg().src).toContain('c_limit,w_1280,h_960');
   });
 });
 
 describe('GalleryModal — edge cases', () => {
-  it('single photo: no arrows, no counter; arrow keys are harmless', () => {
-    render(<GalleryModal photos={ph(['p/solo'])} startIndex={0} onClose={() => {}} />);
+  it('single photo: no arrows, no counter; arrows and stage clicks are harmless', () => {
+    const { container } = render(
+      <GalleryModal photos={ph(['p/solo'])} startIndex={0} onClose={() => {}} />,
+    );
     expect(screen.queryByLabelText('Next photo')).toBeNull();
     expect(screen.queryByLabelText('Previous photo')).toBeNull();
     expect(screen.queryByText(/1.*\/.*1/)).toBeNull();
     fireEvent.keyDown(window, { key: 'ArrowRight' });
+    fireEvent.click(stage(container), { clientX: 900 });
     expect(currentImg().src).toContain('p/solo');
   });
 

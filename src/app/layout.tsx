@@ -79,6 +79,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        {/* Warm up the image CDN connection before the first photo request —
+            saves a DNS + TLS round trip on the gallery's first paint. */}
+        <link rel="preconnect" href="https://res.cloudinary.com" />
         {/* No-FOUC theme script — sets data-theme before first paint from the
             saved preference, or the OS setting when none (system default). */}
         <script

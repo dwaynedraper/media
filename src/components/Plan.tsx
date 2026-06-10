@@ -1,6 +1,7 @@
 'use client';
 
 import { useReveal } from '@/hooks/useReveal';
+import { cloudinaryUrl } from '@/lib/cloudinary';
 
 export default function Plan() {
   const revealH2   = useReveal<HTMLHeadingElement>();
@@ -8,6 +9,7 @@ export default function Plan() {
   const revealSt1  = useReveal<HTMLDivElement>();
   const revealSt2  = useReveal<HTMLDivElement>();
   const revealSt3  = useReveal<HTMLDivElement>();
+  const revealPhoto = useReveal<HTMLElement>();
 
   return (
     <section className="plan">
@@ -45,6 +47,14 @@ export default function Plan() {
             </div>
           </div>
         </div>
+        <figure ref={revealPhoto} className="section-photo plan-photo reveal">
+          <img
+            src={cloudinaryUrl('sharpsighted/home/plan-lake-aerial', 'thumb')}
+            alt="Drone aerial of a Frisco, Texas neighborhood stretching toward Lewisville Lake"
+            loading="lazy"
+            draggable={false}
+          />
+        </figure>
       </div>
     </section>
   );
