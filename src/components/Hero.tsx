@@ -28,7 +28,7 @@ export default function Hero() {
         <div className="hero-photo">
           <img
             src={cloudinaryUrl('sharpsighted/home/hero-living-room', 'thumb')}
-            alt="Double-height formal living room with sculptural fireplace and ring chandeliers in an Allen, Texas luxury estate"
+            alt="Double-height formal living room with a rare imported marble feature wall above a built-in aquarium, under ring chandeliers, in an Allen, Texas luxury estate"
             fetchPriority="high"
             draggable={false}
           />

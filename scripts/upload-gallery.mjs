@@ -80,7 +80,9 @@ for (const file of files) {
   const timestamp = Math.floor(Date.now() / 1000);
 
   // Signature: alphabetically sorted params + secret, SHA-1 hex.
-  const params = { public_id: publicId, timestamp };
+  // invalidate=true purges CDN-cached derived versions on overwrite —
+  // without it, replacing an image keeps serving the old crop for days.
+  const params = { invalidate: 'true', public_id: publicId, timestamp };
   if (ctx) params.context = ctx;
   const toSign = Object.keys(params)
     .sort()
@@ -93,6 +95,7 @@ for (const file of files) {
   form.append('api_key', KEY);
   form.append('timestamp', String(timestamp));
   form.append('public_id', publicId);
+  form.append('invalidate', 'true');
   if (ctx) form.append('context', ctx);
   form.append('signature', signature);
 
