@@ -4,8 +4,15 @@ import { cloudinaryUrl } from '@/lib/cloudinary';
 export default function Hero() {
   return (
     <section className="hero">
-      <div className="hero-bg" aria-hidden="true" />
-      <div className="hero-line" aria-hidden="true" />
+      <div className="hero-photo-bg">
+        <img
+          src={cloudinaryUrl('sharpsighted/home/hero-living-room', 'bg')}
+          alt="Double-height formal living room with a rare imported marble feature wall above a built-in aquarium, under ring chandeliers, in an Allen, Texas luxury estate"
+          fetchPriority="high"
+          draggable={false}
+        />
+      </div>
+      <div className="hero-scrim" aria-hidden="true" />
       <div className="hero-content">
         <div className="hero-eyebrow">Sharp Sighted Media · Dallas-Fort Worth</div>
         <h1>
@@ -24,21 +31,11 @@ export default function Hero() {
           </Link>
         </div>
       </div>
-      <div className="hero-right">
-        <div className="hero-photo">
-          <img
-            src={cloudinaryUrl('sharpsighted/home/hero-living-room', 'thumb')}
-            alt="Double-height formal living room with a rare imported marble feature wall above a built-in aquarium, under ring chandeliers, in an Allen, Texas luxury estate"
-            fetchPriority="high"
-            draggable={false}
-          />
-        </div>
-        <div className="hero-badges" aria-label="Credentials">
-          <div className="badge">FAA Part 107 Certified</div>
-          <div className="badge">MLS and AI Compliant</div>
-          <div className="badge">24-Hour Delivery</div>
-          <div className="badge">Serving the 121 Corridor</div>
-        </div>
+      <div className="hero-badges" aria-label="Credentials">
+        <div className="badge">FAA Part 107 Certified</div>
+        <div className="badge">MLS and AI Compliant</div>
+        <div className="badge">24-Hour Delivery</div>
+        <div className="badge">Serving the 121 Corridor</div>
       </div>
     </section>
   );

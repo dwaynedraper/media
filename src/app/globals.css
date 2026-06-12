@@ -390,8 +390,7 @@ nav {
   padding:     7rem 1.25rem 4rem;
   position:    relative;
   overflow:    hidden;
-  max-width:   1440px;
-  margin-inline: auto;
+  /* full-bleed: the photo runs edge to edge; content aligns itself below */
 }
 
 @media (min-width: 768px) {
@@ -405,37 +404,31 @@ nav {
   }
 }
 
-.hero-bg {
-  position:   absolute;
-  inset:      0;
+/* Full-bleed hero photo. The image is 3:2; cover-cropping is biased upward
+   so the marble feature wall and chandeliers always survive — the rug and
+   floor give way first on wide viewports. */
+.hero-photo-bg {
+  position: absolute;
+  inset:    0;
+}
+
+.hero-photo-bg img {
+  width:           100%;
+  height:          100%;
+  object-fit:      cover;
+  object-position: 50% 38%;
+  display:         block;
+}
+
+/* Directional scrim: heavy under the copy on the left, light over the room,
+   weighted at the bottom for the badges. Fixed dark tones (not theme vars) —
+   the photo is the background in both themes, so the text contrast is too. */
+.hero-scrim {
+  position: absolute;
+  inset:    0;
   background:
-    radial-gradient(ellipse 80% 50% at 60% 40%, var(--gold-dim) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 60% at 20% 80%, var(--gold-dim) 0%, transparent 60%);
-}
-
-@media (min-width: 1024px) {
-  .hero-bg {
-    background:
-      radial-gradient(ellipse 60% 50% at 70% 40%, var(--gold-dim) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 60% at 20% 80%, var(--gold-dim) 0%, transparent 60%);
-  }
-}
-
-/* vertical rule — desktop only */
-.hero-line {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .hero-line {
-    display:    block;
-    position:   absolute;
-    top: 0; bottom: 0;
-    right:      42%;
-    width:      1px;
-    background: linear-gradient(to bottom, transparent, var(--border-gold) 30%, var(--border-gold) 70%, transparent);
-    opacity:    0.45;
-  }
+    linear-gradient(100deg, rgba(12, 10, 8, 0.82) 0%, rgba(12, 10, 8, 0.58) 36%, rgba(12, 10, 8, 0.2) 64%, rgba(12, 10, 8, 0.36) 100%),
+    linear-gradient(to top, rgba(12, 10, 8, 0.5) 0%, rgba(12, 10, 8, 0) 30%);
 }
 
 .hero-content {
@@ -517,53 +510,42 @@ nav {
   }
 }
 
-/* photo + badges column — desktop only */
-.hero-right {
+/* badges — desktop only, floated over the photo, bottom-right */
+.hero-badges {
   display: none;
 }
 
 @media (min-width: 1024px) {
-  .hero {
-    gap:             3rem;
-    justify-content: space-between;
-  }
-
-  .hero-right {
-    display:        flex;
-    flex-direction: column;
-    gap:            1.1rem;
-    align-items:    flex-end;
-    width:          min(46vw, 660px);
-    flex-shrink:    0;
-    position:       relative;
-    /* Run past the content gutter — the photo lives wider than the copy */
-    margin-right:   -4rem;
-    animation:      fadeUp 1.1s 0.2s ease both;
-  }
-
-  .hero-photo {
-    width:        100%;
-    aspect-ratio: 3 / 2;
-    overflow:     hidden;
-    border:       1px solid var(--border-gold);
-    box-shadow:   0 30px 80px rgba(0, 0, 0, 0.45);
-  }
-
-  .hero-photo img {
-    width:      100%;
-    height:     100%;
-    object-fit: cover;
-    display:    block;
-  }
-
   .hero-badges {
+    position:       absolute;
+    bottom:         4rem;
+    right:          max(4rem, calc(50vw - 720px + 4rem));
     display:        flex;
     flex-direction: column;
     gap:            0.75rem;
     align-items:    flex-end;
-    padding-right:  0.25rem;
+    animation:      fadeUp 1.1s 0.3s ease both;
   }
 }
+
+/* Over the photo, hero text is fixed-light in both themes */
+.hero-content {
+  /* on ultrawide screens, keep the copy aligned with the old 1440px frame */
+  margin-left: max(0px, calc(50vw - 720px));
+}
+
+.hero h1 { color: #f7f3ec; }
+
+.hero-sub { color: rgba(247, 243, 236, 0.85); }
+
+.hero .btn-ghost { color: rgba(247, 243, 236, 0.75); }
+
+.hero .btn-ghost:hover {
+  color:        #fff;
+  border-color: rgba(247, 243, 236, 0.6);
+}
+
+.hero .badge { color: rgba(247, 243, 236, 0.8); }
 
 .badge {
   font-size:      0.72rem;
