@@ -23,6 +23,10 @@ const jost = Jost({
 
 const PLAUSIBLE_SCRIPT = process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT;
 
+const SITE_URL = 'https://sharpsighted.media';
+const OG_IMAGE =
+  'https://res.cloudinary.com/dyijp1zno/image/upload/c_fill,w_1200,h_630,q_auto,f_jpg/sharpsighted/home/hero-living-room';
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -44,9 +48,15 @@ const jsonLd = {
       legalName: 'Sharp Sighted Studio',
       description: 'Real estate media for top-producing agents in the DFW 121 corridor. MLS photography, aerials, walkthrough video, floor plans, and twilight edits by Dean Draper.',
       url: 'https://sharpsighted.media',
+      image: OG_IMAGE,
       telephone: '+12142335338',
       email: 'dean@sharpsightedstudio.com',
       priceRange: '$$$',
+      address: {
+        '@type': 'PostalAddress',
+        addressRegion: 'TX',
+        addressCountry: 'US',
+      },
       parentOrganization: { '@id': 'https://sharpsightedstudio.com/#organization' },
       areaServed: [
         'Allen, TX', 'Plano, TX', 'Frisco, TX', 'McKinney, TX',
@@ -67,12 +77,25 @@ const jsonLd = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
     template: '%s | Sharp Sighted Media',
     default: 'Sharp Sighted Media | Luxury Real Estate Photography | Dallas-Fort Worth',
   },
   description:
     'Luxury real estate media for top-producing agents in the DFW area. Research-driven photography, aerials, and video that protects your reputation and sells faster.',
+  openGraph: {
+    type: 'website',
+    siteName: 'Sharp Sighted Media',
+    locale: 'en_US',
+    url: SITE_URL,
+    title: 'Sharp Sighted Media | Luxury Real Estate Photography | Dallas-Fort Worth',
+    description:
+      'Research-driven real estate photography, aerials, floor plans, and video for top-producing agents in the DFW 121 corridor. 24-hour turnaround.',
+    images: [{ url: OG_IMAGE, width: 1200, height: 630, alt: 'Luxury living room photographed by Sharp Sighted Media' }],
+  },
+  twitter: { card: 'summary_large_image' },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

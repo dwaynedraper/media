@@ -3,9 +3,10 @@ import SproutForm from '@/components/SproutForm';
 import ContactSidebar from '@/components/ContactSidebar';
 
 export const metadata: Metadata = {
-  title: 'Contact | Sharp Sighted Media',
+  title: 'Book a Real Estate Photography Session',
   description:
     'Book your real estate media session or reach out directly. Sharp Sighted Media serves the 121 Corridor in the Dallas-Fort Worth area.',
+  alternates: { canonical: '/contact' },
 };
 
 export default function Contact() {
