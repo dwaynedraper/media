@@ -13,18 +13,18 @@ export default function Problem() {
     <section className="problem">
       <div className="container">
         <div ref={revealInner} className="problem-inner reveal">
-          <div>
+          <div className="problem-header">
             <div className="section-label">The Problem</div>
             <h2>When the media underperforms, the client blames you.</h2>
-            <figure className="section-photo problem-photo">
-              <img
-                src={cloudinaryUrl('sharpsighted/home/problem-wine-wall-dining', 'thumb')}
-                alt="Formal dining room with backlit wine wall and gold pendant chandelier in an Allen, Texas luxury estate"
-                loading="lazy"
-                draggable={false}
-              />
-            </figure>
           </div>
+          <figure className="section-photo problem-photo">
+            <img
+              src={cloudinaryUrl('sharpsighted/home/problem-wine-wall-dining', 'thumb')}
+              alt="Formal dining room with backlit wine wall and gold pendant chandelier in an Allen, Texas luxury estate"
+              loading="lazy"
+              draggable={false}
+            />
+          </figure>
           <ul className="problem-list">
             <li ref={revealItem1} className="problem-item reveal reveal-delay-1">
               <span className="problem-num">01</span>

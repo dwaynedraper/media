@@ -600,19 +600,15 @@ section {
   border-bottom: 1px solid var(--border);
 }
 
+/* Editorial flow: headline → full-width photo → three proof points in a row */
 .problem-inner {
   display:        flex;
   flex-direction: column;
-  gap:            3rem;
+  gap:            2.5rem;
 }
 
 @media (min-width: 1024px) {
-  .problem-inner {
-    display:               grid;
-    grid-template-columns: 1fr 1fr;
-    gap:                   5rem;
-    align-items:           center;
-  }
+  .problem-inner { gap: 3rem; }
 }
 
 .problem h2 {
@@ -621,6 +617,7 @@ section {
   font-weight: 400;
   line-height: 1.2;
   color:       var(--text);
+  max-width:   22ch;
 }
 
 .problem-list {
@@ -632,6 +629,15 @@ section {
 
 @media (min-width: 768px) {
   .problem-list { gap: 1.75rem; }
+}
+
+@media (min-width: 1024px) {
+  .problem-list {
+    display:               grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:                   3rem;
+    align-items:           start;
+  }
 }
 
 .problem-item {
@@ -2053,7 +2059,7 @@ footer {
   aspect-ratio: 3 / 2;
 }
 
-.problem-photo { margin-top: 2.25rem; }
+.problem-photo { margin: 0; }
 .plan-photo    { margin-top: 3rem; }
 
 /* Guide research diagram — blueprint-style technical drawing.
