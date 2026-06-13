@@ -14,6 +14,75 @@ export default function Packages() {
   const revealAddons     = useReveal<HTMLDivElement>();
   const revealFinalCta   = useReveal<HTMLDivElement>();
 
+  const packagesFaq = [
+    {
+      q: 'How much does real estate photography cost in the DFW 121 corridor?',
+      a: 'The Essentials Package is $400 per property — MLS-optimized stills, aerial photography, a measured floor plan, a twilight hero edit, a 20-second vertical reel, and a branded property website. Bundled packages run to $550 (Zillow) and $1,000 (Premium).',
+    },
+    {
+      q: 'How fast is turnaround?',
+      a: 'Edited, MLS-ready files are in your inbox within 24 hours of every shoot. Guaranteed.',
+    },
+    {
+      q: 'Which cities do you serve?',
+      a: 'The DFW 121 corridor and surrounding North Texas — Allen, Plano, Frisco, McKinney, Southlake, Grapevine, Colleyville, and neighboring communities across Collin, Denton, and Tarrant counties.',
+    },
+    {
+      q: 'Do you offer drone and aerial photography?',
+      a: 'Yes. Sharp Sighted Media is FAA Part 107 certified, and aerial stills are included in every Essentials Package. A cinematic aerial video (MasterShots) is available as a $250 add-on.',
+    },
+    {
+      q: 'What is the difference between the Zillow and Premium packages?',
+      a: 'The Zillow Package ($550) adds a Zillow 3D interactive tour and interactive floor plan, making a listing Zillow-Showcase-eligible. The Premium Package ($1,000) adds a cinematic video walkthrough and a cinematic aerial film.',
+    },
+    {
+      q: 'When are shoot days?',
+      a: 'Wednesdays and Thursdays. Booking is online and confirmed instantly.',
+    },
+  ];
+
+  const packagesFaqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': 'https://sharpsighted.media/packages#faq',
+    mainEntity: packagesFaq.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  };
+
+  const catalogItems = [
+    {
+      name: 'The Essentials Package',
+      price: '400',
+      description:
+        'MLS-optimized stills, aerial photography, a measured floor plan, a twilight hero edit, a 20-second vertical reel, and a branded property website. 24-hour turnaround.',
+    },
+    ...upgradePackages.map((p) => ({
+      name: p.name,
+      price: String(Number(p.price.replace(/[^0-9.]/g, ''))),
+      description: p.tagline,
+    })),
+  ];
+
+  const packagesJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'OfferCatalog',
+    '@id': 'https://sharpsighted.media/packages#catalog',
+    name: 'Real estate media packages — Sharp Sighted Media',
+    provider: { '@id': 'https://sharpsighted.media/#business' },
+    itemListElement: catalogItems.map((p) => ({
+      '@type': 'Offer',
+      name: p.name,
+      price: p.price,
+      priceCurrency: 'USD',
+      description: p.description,
+      url: 'https://sharpsighted.media/packages',
+      availability: 'https://schema.org/InStock',
+    })),
+  };
+
   return (
     <>
       {/* Page Header */}
@@ -338,6 +407,32 @@ export default function Packages() {
             </p>
           </div>
         </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="addons">
+        <div className="container">
+          <div className="reveal">
+            <div className="section-label">Questions, answered</div>
+            <h2 className="pkg-section-h2">The quick answers.</h2>
+            <div className="city-faq">
+              {packagesFaq.map((item) => (
+                <details key={item.q} className="city-faq-item">
+                  <summary>{item.q}</summary>
+                  <p>{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(packagesFaqJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(packagesJsonLd) }}
+        />
       </section>
 
       {/* Final CTA */}

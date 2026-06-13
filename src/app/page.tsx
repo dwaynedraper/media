@@ -7,6 +7,7 @@ import Offer from '@/components/Offer';
 import MoreOptions from '@/components/MoreOptions';
 import Stakes from '@/components/Stakes';
 import RetainerTease from '@/components/RetainerTease';
+import HomeFaq from '@/components/HomeFaq';
 import FinalCta from '@/components/FinalCta';
 
 export const metadata: Metadata = {
@@ -24,6 +25,7 @@ export default function Home() {
       <MoreOptions />
       <Stakes />
       <RetainerTease />
+      <HomeFaq />
       <FinalCta />
     </main>
   );

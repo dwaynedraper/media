@@ -99,6 +99,12 @@ export default function Footer() {
           <li><Link href="/service-areas">Service Areas</Link></li>
           <li><Link href="/contact">Contact</Link></li>
         </ul>
+        <address style={{ fontStyle: 'normal', display: 'flex', flexDirection: 'column', gap: '0.2rem', fontSize: '0.7rem', lineHeight: 1.5, color: 'var(--text-muted)', textAlign: 'right' }}>
+          <span style={{ color: 'var(--text-mid)' }}>Sharp Sighted Studio</span>
+          <a href="tel:+12142335338" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>(214) 233-5338</a>
+          <a href="mailto:dean@sharpsightedstudio.com" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>dean@sharpsightedstudio.com</a>
+          <span>Serving the DFW 121 corridor &amp; North Texas</span>
+        </address>
         <div style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 300 }}>
           &copy; {new Date().getFullYear()} Sharp Sighted Media
         </div>
