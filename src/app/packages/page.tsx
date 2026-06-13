@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useReveal } from '@/hooks/useReveal';
+import { upgradePackages, addonGroups } from '@/data/offerings';
 
 export default function Packages() {
   const revealEssentials = useReveal<HTMLDivElement>();
@@ -106,6 +107,20 @@ export default function Packages() {
                 </div>
               </div>
 
+              <div className="include-item">
+                <div className="include-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="include-name">Branded Property Website</div>
+                  <div className="include-detail">A shareable single-property site, plus an MLS-safe unbranded version.</div>
+                </div>
+              </div>
+
               <div className="include-item include-item-full">
                 <div className="include-icon">
                   <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -132,6 +147,42 @@ export default function Packages() {
                 <p className="offer-note">Wednesday and Thursday shoot days. Serving the 121 Corridor.</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Upgrade Packages */}
+      <section className="pkg-upgrades">
+        <div className="container">
+          <div className="section-label">Build On It</div>
+          <h2 className="pkg-section-h2">Two ways to go bigger.</h2>
+          <div className="pkg-cards">
+            {upgradePackages.map((pkg) => (
+              <div
+                key={pkg.name}
+                className={`pkg-card reveal${pkg.featured ? ' pkg-card-featured' : ''}`}
+              >
+                {pkg.featured && <div className="pkg-badge">Best value</div>}
+                <div className="pkg-card-name">{pkg.name}</div>
+                <div className="pkg-card-tagline">{pkg.tagline}</div>
+                <div className="pkg-card-price">
+                  {pkg.price}
+                  <span className="pkg-card-cadence">{pkg.cadence}</span>
+                </div>
+                <ul className="pkg-card-includes">
+                  {pkg.includes.map((inc) => (
+                    <li key={inc}>
+                      <span className="win-dot" aria-hidden="true" />
+                      <span>{inc}</span>
+                    </li>
+                  ))}
+                </ul>
+                {pkg.note && <p className="pkg-card-note">{pkg.note}</p>}
+                <Link href="/contact" className="btn-primary">
+                  Book {pkg.name.replace('The ', '')}
+                </Link>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -250,38 +301,38 @@ export default function Packages() {
       <section className="addons">
         <div className="container">
           <div ref={revealAddons} className="reveal">
-            <div className="section-label">Need More for a Specific Listing</div>
-            <h2 className="pkg-section-h2">Some listings call for more.</h2>
+            <div className="section-label">Add-Ons</div>
+            <h2 className="pkg-section-h2">Build the listing it deserves.</h2>
             <p className="addons-body">
-              These options are available as standalone additions to any Essentials booking. Designed
-              for properties where depth and narrative affect perceived value.
+              Every add-on stacks onto any Essentials booking. Mix and match for a specific listing —
+              or grab one of the packages above.
             </p>
-            <ul className="addons-list">
-              <li>
-                <span className="win-dot" aria-hidden="true" />
-                <span>Zillow 3D interactive tour</span>
-              </li>
-              <li>
-                <span className="win-dot" aria-hidden="true" />
-                <span>Cinematic walkthrough with agent voiceover</span>
-              </li>
-              <li>
-                <span className="win-dot" aria-hidden="true" />
-                <span>Extended aerial storytelling</span>
-              </li>
-              <li>
-                <span className="win-dot" aria-hidden="true" />
-                <span>SEO-driven listing copy and area research</span>
-              </li>
-              <li>
-                <span className="win-dot" aria-hidden="true" />
-                <span>Neighborhood and city highlight video</span>
-              </li>
-            </ul>
+          </div>
+
+          <div className="addon-groups">
+            {addonGroups.map((group) => (
+              <div key={group.label} className="addon-group reveal">
+                <div className="addon-group-label">{group.label}</div>
+                <ul className="addon-rows">
+                  {group.items.map((item) => (
+                    <li key={item.name} className="addon-row">
+                      <div className="addon-row-head">
+                        <span className="addon-name">{item.name}</span>
+                        <span className="addon-price">{item.price}</span>
+                      </div>
+                      {item.note && <p className="addon-note">{item.note}</p>}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="reveal">
             <p className="addons-footer">
-              Pricing varies by scope.{' '}
+              Not sure what fits?{' '}
               <Link href="/contact" className="addons-link">
-                Contact us to discuss
+                Tell us about the listing
               </Link>{' '}
               and we&apos;ll put together the right combination.
             </p>
@@ -297,7 +348,6 @@ export default function Packages() {
         <p>Start with the Essentials. Everything else follows from there.</p>
         <Link href="/contact" className="btn-primary">
           Book the Essentials Package
-          <span className="price-tag">$400</span>
         </Link>
         <p className="final-cta-sub">
           Already working with us?{' '}

@@ -1304,6 +1304,134 @@ footer {
 .reveal-delay-3  { transition-delay: 0.3s; }
 
 /* ============================================================
+   MICRO-INTERACTIONS
+   Quick, smooth, GPU-friendly (transform/opacity/shadow only) hover &
+   press feedback that makes the whole site feel alive on touch and
+   pointer. All gated behind no-preference so reduced-motion users get
+   a calm, static site.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Buttons — lift on hover, settle on press */
+  .btn-primary,
+  .btn-ghost,
+  .nav-cta,
+  .overlay-cta {
+    transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+                box-shadow 0.25s ease,
+                background-color 0.25s ease,
+                color 0.25s ease,
+                border-color 0.25s ease;
+  }
+  .btn-primary:hover,
+  .nav-cta:hover,
+  .overlay-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--gold-dim); }
+  .btn-ghost:hover   { transform: translateY(-2px); }
+  .btn-primary:active,
+  .btn-ghost:active,
+  .nav-cta:active,
+  .overlay-cta:active { transform: translateY(0); transition-duration: 0.08s; }
+
+  /* Cards & tiles — gentle rise + warm border on hover */
+  .offer-card,
+  .include-item,
+  .badge,
+  .area-tag {
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1),
+                box-shadow 0.3s ease,
+                border-color 0.3s ease,
+                color 0.25s ease;
+  }
+  .include-item:hover { transform: translateY(-3px); border-color: var(--border-gold); }
+  .badge:hover        { transform: translateY(-2px); border-color: var(--border-gold); }
+  .area-tag:hover     { transform: translateY(-2px); border-color: var(--border-gold); color: var(--text); }
+
+  /* Portfolio photos — slow cinematic push-in on hover */
+  .portfolio-card { overflow: hidden; }
+  .portfolio-card .card-cover { transition: transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  .portfolio-card:hover .card-cover,
+  .portfolio-card:focus-visible .card-cover { transform: scale(1.05); }
+
+  /* Inline links — smooth color shift */
+  a { transition: color 0.2s ease; }
+
+  /* Desktop nav links — underline grows from the left */
+  .nav-links a:not(.nav-cta) { position: relative; }
+  .nav-links a:not(.nav-cta)::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -4px;
+    height: 1.5px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .nav-links a:not(.nav-cta):hover::after,
+  .nav-links a:not(.nav-cta).active::after { transform: scaleX(1); }
+}
+
+/* ============================================================
+   OFFERINGS — homepage teaser, upgrade package cards, add-on menu
+   ============================================================ */
+
+/* Homepage "Need more?" teaser */
+.more-options { padding: 4rem 1.25rem; background: var(--surface); }
+.more-options-inner { max-width: 760px; margin: 0 auto; text-align: center; }
+.more-options-h2 {
+  font-family: var(--serif); font-weight: 500;
+  font-size: clamp(1.8rem, 4vw, 2.8rem); margin: 0.4rem 0 1.4rem;
+}
+.more-options-list {
+  list-style: none; display: inline-flex; flex-direction: column;
+  gap: 0.7rem; text-align: left; margin: 0 auto 1.6rem; padding: 0;
+}
+.more-options-list li { display: flex; align-items: center; gap: 0.7rem; color: var(--text-mid); font-size: 1.02rem; }
+.more-options-and { color: var(--text-muted); font-style: italic; }
+.more-options-link {
+  font-family: var(--sans); font-weight: 500; color: var(--gold);
+  text-decoration: none; border-bottom: 1px solid var(--border-gold); padding-bottom: 2px;
+}
+
+/* Upgrade package cards (/packages) */
+.pkg-upgrades { padding: 1rem 1.25rem 3.5rem; }
+@media (min-width: 768px) { .pkg-upgrades { padding: 1rem 2.5rem 4.5rem; } }
+.pkg-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; margin-top: 1.6rem; }
+@media (max-width: 760px) { .pkg-cards { grid-template-columns: 1fr; } }
+.pkg-card {
+  position: relative; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 14px; padding: 2rem 1.8rem; display: flex; flex-direction: column;
+}
+.pkg-card-featured { border-color: var(--border-gold); box-shadow: 0 18px 50px var(--gold-dim); }
+.pkg-badge {
+  position: absolute; top: -0.7rem; right: 1.4rem; background: var(--gold); color: #080808;
+  font-family: var(--sans); font-size: 0.66rem; font-weight: 500; letter-spacing: 0.14em;
+  text-transform: uppercase; padding: 0.35rem 0.7rem; border-radius: 999px;
+}
+[data-theme="light"] .pkg-badge { color: #FAF9F6; }
+.pkg-card-name { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); }
+.pkg-card-tagline { font-family: var(--serif); font-size: 1.5rem; line-height: 1.15; margin: 0.5rem 0 1rem; color: var(--text); }
+.pkg-card-price { font-family: var(--serif); font-size: 2.6rem; color: var(--text); line-height: 1; }
+.pkg-card-cadence { display: block; font-family: var(--sans); font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; letter-spacing: 0.04em; }
+.pkg-card-includes { list-style: none; margin: 1.3rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.pkg-card-includes li { display: flex; gap: 0.6rem; color: var(--text-mid); font-size: 0.95rem; line-height: 1.4; }
+.pkg-card-note { font-size: 0.85rem; color: var(--text-muted); margin: 1rem 0 1.4rem; line-height: 1.45; }
+.pkg-card .btn-primary { margin-top: auto; align-self: flex-start; }
+
+/* Add-on priced breakdown (/packages) */
+.addon-groups { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.6rem 2.4rem; margin: 2rem 0 1.5rem; }
+@media (max-width: 760px) { .addon-groups { grid-template-columns: 1fr; } }
+.addon-group-label {
+  font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); padding-bottom: 0.6rem; border-bottom: 1px solid var(--border); margin-bottom: 0.8rem;
+}
+.addon-rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
+.addon-row-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.addon-name { font-family: var(--serif); font-size: 1.12rem; color: var(--text); }
+.addon-price { font-family: var(--sans); font-weight: 500; font-size: 0.98rem; color: var(--gold); white-space: nowrap; }
+.addon-note { font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.45; max-width: 44ch; }
+
+/* ============================================================
    GOLD GRADIENT UTILITY
    ============================================================ */
 .text-gradient-gold {
@@ -2125,4 +2253,161 @@ footer {
   position:   absolute;
   inset:      0;
   background: linear-gradient(to bottom, var(--surface), transparent 35%, transparent 70%, var(--surface));
+}
+
+/* ============================================================
+   Service-area (city) pages
+   ============================================================ */
+
+.city-section {
+  padding: 3.5rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .city-section { padding: 4.5rem 2.5rem; }
+}
+
+.city-section + .city-section {
+  border-top: 1px solid var(--border);
+}
+
+.city-intro {
+  font-size:   1.02rem;
+  font-weight: 300;
+  color:       var(--text-mid);
+  max-width:   62ch;
+}
+
+.city-intro + .city-intro { margin-top: 1.25rem; }
+
+.city-neighborhoods { margin-top: 2.5rem; }
+
+.city-gallery-note {
+  font-size:     0.88rem;
+  font-weight:   300;
+  color:         var(--text-muted);
+  max-width:     58ch;
+  margin-bottom: 1.5rem;
+}
+
+.city-gallery-more { margin-top: 1.5rem; }
+
+.city-gallery-more a {
+  font-size:      0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color:          var(--gold);
+  text-decoration: none;
+}
+
+.city-gallery-more a:hover { color: var(--gold-light); }
+
+.city-faq {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.75rem;
+  max-width:      720px;
+}
+
+.city-faq-item {
+  background: var(--surface);
+  border:     1px solid var(--border);
+}
+
+.city-faq-item summary {
+  cursor:      pointer;
+  list-style:  none;
+  padding:     1.1rem 1.25rem;
+  font-weight: 400;
+  color:       var(--text);
+  display:     flex;
+  justify-content: space-between;
+  align-items: center;
+  gap:         1rem;
+}
+
+.city-faq-item summary::-webkit-details-marker { display: none; }
+
+.city-faq-item summary::after {
+  content:    '+';
+  color:      var(--gold);
+  font-size:  1.1rem;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.city-faq-item[open] summary::after { transform: rotate(45deg); }
+
+.city-faq-item p {
+  padding:     0 1.25rem 1.25rem;
+  font-weight: 300;
+  color:       var(--text-mid);
+  max-width:   60ch;
+}
+
+.city-cta {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding:    4rem 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .city-cta { padding: 5rem 2.5rem; }
+}
+
+.city-cta h2 {
+  font-family: var(--serif);
+  font-size:   clamp(1.85rem, 4vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.2;
+  color:       var(--text);
+}
+
+.city-cta h2 em { font-style: italic; color: var(--gold-light); }
+
+.city-cta-sub {
+  font-weight: 300;
+  color:       var(--text-mid);
+  max-width:   48ch;
+  margin:      1rem auto 2rem;
+}
+
+.city-index {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 640px) {
+  .city-index { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .city-index { grid-template-columns: repeat(3, 1fr); }
+}
+
+.city-index-card {
+  display:        flex;
+  flex-direction: column;
+  gap:            0.35rem;
+  padding:        1.5rem 1.25rem;
+  background:     var(--surface);
+  border:         1px solid var(--border);
+  text-decoration: none;
+  transition:     border-color 0.2s;
+}
+
+.city-index-card:hover { border-color: var(--gold); }
+
+.city-index-name {
+  font-family: var(--serif);
+  font-size:   1.35rem;
+  color:       var(--text);
+}
+
+.city-index-sub {
+  font-size:   0.78rem;
+  font-weight: 300;
+  color:       var(--text-muted);
 }

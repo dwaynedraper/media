@@ -29,7 +29,6 @@ export default function FinalCta() {
         </p>
         <Link ref={revealBtn} href="/contact" className="btn-primary reveal reveal-delay-2">
           Book the Essentials Package
-          <span className="price-tag">$400</span>
         </Link>
         <p ref={revealSub} className="final-cta-sub reveal reveal-delay-3">
           Questions first?{' '}

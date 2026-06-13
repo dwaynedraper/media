@@ -2,15 +2,18 @@
 
 import { useRef, useState } from 'react';
 import { cloudinaryUrl, modalUrl } from '@/lib/cloudinary';
-import { photos } from '@/data/photos';
+import { photos as allPhotos, type GalleryPhoto } from '@/data/photos';
 import GalleryModal from './GalleryModal';
 
 /**
  * The wall: one continuous scroll of individual photos. Clicking any
  * photo opens a single fullscreen carousel over the entire set,
  * starting at the photo that was clicked.
+ *
+ * Defaults to the full portfolio; pass `photos` to render a subset
+ * (city pages use this for location-specific galleries).
  */
-export default function PortfolioGrid() {
+export default function PortfolioGrid({ photos = allPhotos }: { photos?: GalleryPhoto[] }) {
   const [startIndex, setStartIndex] = useState<number | null>(null);
 
   // Start fetching the fullscreen version the moment intent shows (hover,

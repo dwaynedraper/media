@@ -51,7 +51,7 @@ export default function Nav() {
             {!onContact && (
               <li>
                 <Link href="/contact" className="nav-cta">
-                  Book Essentials · $400
+                  Book Essentials
                 </Link>
               </li>
             )}
@@ -120,7 +120,7 @@ export default function Nav() {
             {!onContact && (
               <li className="overlay-cta-item">
                 <Link href="/contact" className="overlay-cta">
-                  Book Essentials · $400
+                  Book Essentials
                 </Link>
               </li>
             )}

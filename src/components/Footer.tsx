@@ -96,6 +96,7 @@ export default function Footer() {
         <ul className="footer-links">
           <li><Link href="/real-estate-photos">Portfolio</Link></li>
           <li><Link href="/packages">Packages</Link></li>
+          <li><Link href="/service-areas">Service Areas</Link></li>
           <li><Link href="/contact">Contact</Link></li>
         </ul>
         <div style={{ fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 300 }}>

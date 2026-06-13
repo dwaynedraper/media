@@ -4,6 +4,7 @@ import Problem from '@/components/Problem';
 import Guide from '@/components/Guide';
 import Plan from '@/components/Plan';
 import Offer from '@/components/Offer';
+import MoreOptions from '@/components/MoreOptions';
 import Stakes from '@/components/Stakes';
 import RetainerTease from '@/components/RetainerTease';
 import FinalCta from '@/components/FinalCta';
@@ -20,6 +21,7 @@ export default function Home() {
       <Guide />
       <Plan />
       <Offer />
+      <MoreOptions />
       <Stakes />
       <RetainerTease />
       <FinalCta />

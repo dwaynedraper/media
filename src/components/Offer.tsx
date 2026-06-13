@@ -89,6 +89,22 @@ export default function Offer() {
                 </div>
               </div>
             </div>
+
+            <div className="include-item">
+              <div className="include-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="2" y1="12" x2="22" y2="12" />
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+              </div>
+              <div>
+                <div className="include-name">Branded Property Website</div>
+                <div className="include-detail">
+                  A shareable single-property site, plus an MLS-safe unbranded version.
+                </div>
+              </div>
+            </div>
           </div>
           <div className="offer-bottom">
             <div className="offer-guarantee">
@@ -97,7 +113,6 @@ export default function Offer() {
             </div>
             <Link href="/contact" className="btn-primary">
               Book Now
-              <span className="price-tag">$400</span>
             </Link>
           </div>
         </div>

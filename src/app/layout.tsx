@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/context/ThemeContext';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import HubReturnToast from '@/components/HubReturnToast';
+import ScrollReveal from '@/components/ScrollReveal';
 import './globals.css';
 
 const cormorant = Cormorant_Garamond({
@@ -128,6 +129,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${cormorant.variable} ${jost.variable}`}>
         <ThemeProvider>
           <Nav />
+          <ScrollReveal />
           {children}
           <Footer />
           <Suspense>

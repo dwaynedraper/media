@@ -24,7 +24,6 @@ export default function Hero() {
         <div className="hero-actions">
           <Link href="/contact" className="btn-primary">
             Book the Essentials Package
-            <span className="price-tag">$400</span>
           </Link>
           <Link href="/real-estate-photos" className="btn-ghost">
             View the work
