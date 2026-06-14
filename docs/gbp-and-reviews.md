@@ -21,7 +21,7 @@ Paste-ready content for the **Sharp Sighted Studio** GBP (your unified hub listi
 
 ## Description (paste into "From the business" — max 750 characters)
 
-Sharp Sighted Studio is the work of Dean Draper, a North Texas photographer and filmmaker serving the DFW 121 corridor since 2022. Our real estate branch, Sharp Sighted Media, gives top-producing agents listing media that actually moves homes: MLS photography, FAA-certified aerial, measured floor plans, twilight edits, cinematic video, and Zillow 3D tours — every shoot delivered within 24 hours. We also create executive portraits and personal-branding work through Sharp Sighted Photos. Built on three ideas: Stay Sharp. Stay Seen. Stay Human. Serving Allen, Frisco, McKinney, Plano, Southlake, and the wider 121 corridor. Book online — Wednesday and Thursday shoot days.
+Sharp Sighted Studio is a North Texas portrait and media studio serving professional firms, remarkable people, and top-producing real estate agents across the 121 corridor — Allen, Plano, Frisco, McKinney, Southlake, Grapevine, and Denton. Corporate headshots and team photography for law, finance, agency, and other professional teams. Premium listing media for agents who treat marketing as a competitive advantage: MLS photography, FAA-certified aerial, floor plans, twilight, and cinematic video — every shoot delivered within 24 hours. Stay Sharp. Stay Seen. Stay Human.
 
 ---
 
