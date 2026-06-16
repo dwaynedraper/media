@@ -85,4 +85,27 @@ This tier is where the "found occasionally without spend" outcome actually comes
 
 ---
 
+## Progress log
+
+**Done in code (2026-06-13):**
+- **Media** — crawlable NAP in footer; FAQ schema on home, /packages, and every service-area city page; OfferCatalog price schema on /packages; AI-crawler `robots.ts`; `/llms.txt`; city hubs cross-linked to /packages.
+- **Hub (landing), Photos, Studio** — crawlable NAP in footers; AI-crawler `robots.ts`; `/llms.txt`. (Photos already had `FAQPage` schema + `LocalBusiness` + per-page metadata; Studio already had AI-crawler robots.)
+- **Docs** — GBP copy + review templates (`docs/gbp-and-reviews.md`).
+
+**Done by Dean (off-site):**
+- Google Business Profile claimed under "Sharp Sighted Studio" (unified reviews); finishing fill-in from the GBP doc.
+- Google Search Console: all sites + sitemaps added.
+- Review drip started.
+
+## Parked / backlog (tracked — revisit later)
+
+- [ ] **Review / AggregateRating schema** — add to `LocalBusiness` once ~5+ Google reviews exist (must reflect real ratings). Trigger is reviews, not code.
+- [ ] **Core Web Vitals check** — confirm LCP/CLS/INP are green (likely fine; verify in Search Console / PageSpeed).
+- [ ] **ImageObject schema** on portfolio hero shots — optional polish.
+- [ ] **Tier-3 content** — finish the 8 remaining city pages (Lewisville, The Colony, Coppell, Roanoke, Denton, Grapevine, Colleyville, Westlake) + stand up a guides/blog hub.
+- [ ] **Bing Places + Apple Business Connect** (off-site, Dean) — mirror the GBP listing.
+- [ ] **Citations/directories + backlinks** (off-site, Dean) — identical NAP everywhere; pursue local mentions.
+
+---
+
 *Updated 2026-06-13. This is the working checklist — we'll knock out the `[SITE]` items in code and Claude will draft everything you need for the `[YOU]` items.*

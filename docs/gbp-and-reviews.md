@@ -9,8 +9,7 @@ Paste-ready content for the **Sharp Sighted Studio** GBP (your unified hub listi
 ## Profile basics
 
 - **Business name:** Sharp Sighted Studio
-- **Primary category:** Commercial photographer
-- **Secondary categories:** Photographer · Video production service · Aerial photographer · Photography service
+- **Categories (LOCKED — set by Dean; leave as-is):** Photographer (primary) · Portrait studio · Aerial photographer · Commercial photographer · Video production service
 - **Service-area business** (no storefront shown): Allen, Plano, Frisco, McKinney, Lewisville, The Colony, Coppell, Roanoke, Denton, Grapevine, Southlake, Colleyville, Westlake
 - **Website:** https://sharpsightedstudio.com
 - **Phone:** (214) 233-5338
@@ -25,21 +24,40 @@ Sharp Sighted Studio is a North Texas portrait and media studio serving professi
 
 ---
 
-## Services (add each under "Services," with price + description)
+## Services
 
-**Real estate media**
-- Essentials Package — $400 — Stills, aerial, floor plan, twilight edit, social reel, and a branded property website. 24-hour turnaround.
-- Zillow Package — $550 — Essentials plus a Zillow 3D interactive tour and interactive floor plan (Showcase-eligible).
-- Premium Package — $1,000 — Essentials plus a cinematic video walkthrough and cinematic aerial film.
-- Zillow 3D Interactive — $175
-- Cinematic Walkthrough — $500
-- Cinematic Aerial (MasterShots) — $250
-- Virtual Staging — $18/image
-- Real Twilight Session — $175
+GBP auto-fills a generic service-type menu from your categories. Two moves:
 
-**Portraits (Sharp Sighted Photos)**
-- Corporate / executive headshots — from $670
-- Lifestyle & story portraits — from $900
+**1) Turn OFF the off-brand predefined types.** These contradict the brand bible (not a family / maternity / newborn / wedding / event photographer) and dilute positioning + confuse AI about what you do:
+Baby photography · Maternity and newborn · Newborn photography · Family and group · Events and parties · Wedding and engagement · Animal photography.
+
+**Keep the on-brand predefined types:** Headshots and portraits · Headshot photography · Portrait photography · Individual photography · Group photography · Commercial photography · Corporate photography · Real estate photography · Product (only if you sell prints).
+
+**2) The six custom services are LIVE on GBP (added 2026-06-13).** Below: the price to enter and a paste-ready, SEO-first description for each (all under Google's ~300-char limit). Edit each service → set Price → paste Description.
+
+Price-field note: GBP shows a flat number with no "from." So set a **fixed price** on the three Real Estate packages, and leave **"No price"** on the three Story Portraits (their description leads with "Starting at $X," since print/digital add-ons vary). If you'd rather show a number on the portraits, enter 900 / 1700 / 8000 — just know it reads as flat.
+
+*Real Estate (under Photographer category):*
+
+- **Real Estate - Essentials Package** — Price: **$400**
+  > Real estate photography in the DFW 121 corridor — MLS-ready stills, FAA-licensed drone aerials, a measured floor plan, a twilight edit, a vertical reel, and a branded property website. One shoot, delivered in 24 hours. Serving Frisco, Allen, McKinney, Plano & Southlake.
+
+- **Real Estate - Zillow Package** — Price: **$550**
+  > Everything in the Essentials Package plus a Zillow 3D interactive tour and interactive floor plan, making your listing Zillow Showcase eligible. Real estate photography, drone, and floor plans for DFW agents — delivered in 24 hours. Frisco, Allen, McKinney, Plano, Southlake.
+
+- **Real Estate - Premium Package** — Price: **$1,000**
+  > Our full real estate media package — the Essentials plus a cinematic 4K video walkthrough and a cinematic drone (aerial) film. Built for luxury and top-producing agent listings across the DFW 121 corridor. MLS photography, video, floor plans, twilight. 24-hour delivery.
+
+*Story Portraits (under Portrait studio category — leave Price as "No price"):*
+
+- **Story Portraits - The Verse** — Starting at $900
+  > Starting at $900. A focused two-hour, on-location personal-branding portrait session in Dallas–Fort Worth — 10 hand-edited images, five framed prints, and an online gallery. Lifestyle portraits for founders, executives, and creatives who want more than a headshot.
+
+- **Story Portraits - The Story** — Starting at $1,700
+  > Starting at $1,700. Our signature luxury portrait experience in Dallas–Fort Worth — a six-hour, multi-location session, 20 hand-edited images, framed prints, a hero print, a short story film, and a private in-person reveal. Personal-branding and lifestyle portraits.
+
+- **Story Portraits - The Saga** — Starting at $8,000
+  > Starting at $8,000. A two-day legacy and personal-brand documentary experience in Dallas–Fort Worth — 30 versatile images, multiple cinematic films, and a visual strategy guide. Comprehensive brand photography and video for founders and executives.
 
 ---
 
